@@ -1,0 +1,25 @@
+{%extends 'dashbase.html'%}
+{%block css%}
+<link rel="stylesheet" type=text/css href="{{url_for('static',filename='project_view.css')}}">
+{%endblock css%}
+
+{%with proj=proj%}
+{%include 'navfiles/proj_view_nav.html'%}
+{%endwith%}
+{%block content%}
+
+{%for k,v in proj.items()%}
+
+
+{%if ((loop.index <=6) or (loop.index >=9) )%}
+{%if loop.index <=3%}
+{%else%}
+{{k}} <input type="text" value="{{v}}" disabled='true'>
+{%endif%}
+
+{%else%}
+    {{k}} <textarea rows="5" cols="80" disabled='true'>{{v}}</textarea>
+{%endif%}
+<br>
+{%endfor%}
+{%endblock%}

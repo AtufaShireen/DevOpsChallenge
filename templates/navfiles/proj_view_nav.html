@@ -1,0 +1,14 @@
+<div class="navbar navbar-light bg-light proj-nav">
+    
+        <!-- Add table here -->
+        <div class="active"><a href="{{url_for('project_details',project_id=proj.project_id)}}">Details </a></div>
+        <a href="{{url_for('project_log_report',project_id=proj.project_id)}}">View Logs </a>
+        <a href="{{url_for('project_log_exception_report',project_id=proj.project_id)}}">Exception Logs </a>
+        <a href="{{url_for('config_project',project_id=proj.project_id)}}">Configure <span class="badge badge-secondary">{{proj.cloud}}</span></a>
+        <a href="{{url_for('files_board',project_id=proj.project_id)}}">File Management</a>
+        <a href="{{url_for('project_report',project_id=proj.project_id)}}">Report Management</a>
+        <button class="btn btn-danger navbar-btn" id="train" data-path = "{{url_for('train_project',project_id=proj.project_id)}}">Train {{proj.project_title}}</button>
+        <button class="btn btn-danger navbar-btn" id="test" data-path = "{{url_for('test_project',project_id=proj.project_id)}}">Predict {{proj.project_title}}</button>
+        
+</div>
+

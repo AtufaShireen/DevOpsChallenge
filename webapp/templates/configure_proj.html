@@ -1,0 +1,46 @@
+{%extends 'dashbase.html'%}
+
+{%block title%} Configure Project: {{project.project_title}} {%endblock%}
+
+{%block css%}<link rel="stylesheet" type=text/css href="{{url_for('static',filename='project_view.css')}}">{%endblock css%}
+{%with proj=project%}
+{%include 'navfiles/proj_view_nav.html'%}
+{%endwith%}
+{%block content%}
+<div class='add-project '>
+    <h4 class="title">Upload Training and prediction files</h4>
+    <form method="post" id="datafetch_form" enctype="multipart/form-data" action="/add_batch_files/{{project.project_id}}">
+        <p>Add Training Files Here</p>
+        <input type="file" name="trainfile[]" multiple="">
+        <br>
+        <br>
+        <p>Add Testing Files here</p>
+        <input type="file" name="predictfile[]" multiple="">
+        <br>
+        <br>
+        <center><input type="submit" value="addfiles"></center>
+    </form>
+    <hr>
+    <h2 class="title">Upload Using Cloud platforms <span class="badge badge-secondary">still in development mode</span></h2>
+    <h6 >Upload From AWS S3 Bucket</h6>
+    <form method="post" id="datafetch_form" enctype="multipart/form-data" action="/add_cloud_files/{{project.project_id}}">
+        <select name='cloud' id='cloud'>
+            <option value="AWS">AWS</option>
+        </select>
+        <input type='text' name = 'ACCESS_KEY' placeholder="ACCESS_KEY">
+        <input type='text' name = 'SECRET_KEY' placeholder="SECRET_KEY">
+        </form>
+        <hr>
+    <h6 >Upload From Google Cloud Storage</h6>
+    <form method="post" id="datafetch_form" enctype="multipart/form-data" action="/add_cloud_files/{{project.project_id}}">
+        <select name='cloud' id='cloud'>
+            <option value="GCP">GCP</option>
+            <input type="text" name='private_key' placeholder="private_key" required>
+            <input type="text" name='client_email' placeholder="client_email" required>
+            <input type="text" name='token_uri' placeholder="token_uri" required>
+        </select>
+    </form>
+</div>
+
+</div>
+{%endblock content%}

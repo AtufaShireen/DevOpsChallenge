@@ -1,0 +1,14 @@
+venv
+__pycache__/
+.vscode/
+*.pyc
+.idea/
+UserData/
+.env
+todo.txt
+app.yaml
+.circleci/
+newreq.txt
+tables-3.6.1-cp39-cp39-win_amd64.whl
+cloudbuild.yaml
+.*json
