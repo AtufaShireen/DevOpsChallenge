@@ -12,39 +12,12 @@ from automl.models.utils import get_best_param
 from automl.models.mlalgos.ensemble import BoostingEnsemble
 from sklearn.base import clone
 ##-------------------------Classification Problem---------------------------#
-path_1 = r'C:\Users\anony\Projects\AUTOMLOPS\ValidationProcess\TRAIN\GOODRAWDATA\de32b12f-bdc3-4db5-984d-7c2a3ed03096\754d0fb8-125c-4658-97e6-4d78708eae67\forestcover_28011994_120214.h5'
-path_2 = r'C:\Users\anony\Projects\AUTOMLOPS\ValidationProcess\TRAIN\GOODRAWDATA\de32b12f-bdc3-4db5-984d-7c2a3ed03096\754d0fb8-125c-4658-97e6-4d78708eae67\forestcover_28011999_120259.h5'
-df_1 = pd.read_hdf(path_1)
-df_2 = pd.read_hdf(path_2)
-df = pd.concat([df_1,df_2],axis=0)
-target = 'class'
-
-# tune_grid = BaseXGBClassifier().tune_grid
-# print(tune_grid)
-# preprocess_pipe = preprocess_path(data=df,ml_type='classification',scale_data=True,scaling_method="minmax",
-#     target=target,dummify_categoricals=True,cluster_entire_data=False)
-
-# data_ = preprocess_pipe.fit_transform(df)
-# print(data_.head())
-# x_train,x_test,y_train,y_test = train_test_split(data_.drop(target,axis=1),data_[target],test_size=0.20,stratify=data_[target],random_state=45)
-
-# model = BoostingEnsemble(x_train,y_train,ml_type='classification')
-# v = clone(BaseXGBClassifier().class_def)
-# model= v.set_params(n_jobs=-1,    
-#                     use_label_encoder=False,
-#                     objective="multi:softmax",
-#                     eval_metric="merror",
-#                     verbosity=0,
-#                     num_class=len(set(y_train)))
-model = getclassification.BestClassificationModel(data=df,target=target)
-# a,b = get_best_param(model,tune_grid,df.drop(target,axis=1),df[target])
-# print(a,b)
-
-# print(df.head())               
-model.fit()
-# model.fit(x_train,y_train)
-predictions = (model.predict(df))
-print(accuracy_score(df[target],predictions))
+# path_1 = r'C:\Users\anony\Projects\AUTOMLOPS\ValidationProcess\TRAIN\GOODRAWDATA\de32b12f-bdc3-4db5-984d-7c2a3ed03096\754d0fb8-125c-4658-97e6-4d78708eae67\forestcover_28011994_120214.h5'
+# path_2 = r'C:\Users\anony\Projects\AUTOMLOPS\ValidationProcess\TRAIN\GOODRAWDATA\de32b12f-bdc3-4db5-984d-7c2a3ed03096\754d0fb8-125c-4658-97e6-4d78708eae67\forestcover_28011999_120259.h5'
+# df_1 = pd.read_hdf(path_1)
+# df_2 = pd.read_hdf(path_2)
+# df = pd.concat([df_1,df_2],axis=0)
+# target = 'class'
 
 # x_train,x_test,y_train,y_test = train_test_split(df.drop(target,axis=1),df[target],test_size=0.02,stratify=df[target],random_state=45)
 # train_df = pd.concat([x_train,y_train],axis=1)
