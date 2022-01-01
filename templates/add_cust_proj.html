@@ -1,6 +1,6 @@
 {%extends 'dashbase.html'%}
 
-{%block title%} Add Project {%endblock%}
+{%block title%} Add Segemtation Project {%endblock%}
 {% include 'navfiles/proj_nav.html' %}
 {%block css%}<link rel="stylesheet" type=text/css href="{{url_for('static',filename='project_view.css')}}">{%endblock css%}
 {%block content%}
@@ -24,15 +24,10 @@
 
         <br />File regex:<br /> {{form.file_regex}}<br />
             <br />
-            Train Schema:</br> {{form.train_schema}}
+            column Schema:</br> {{form.column_schema}}
             <br />
+        <br />
 
-            <br /> prediction schema:<br /> {{form.test_schema}}</br>
-  
-        <br />
-        <p>Problem Type</p>
-        {{form.mltype}}
-        <br />
         <p>Select Cloud Platform</p>
         {{form.cloud}}
 <br/>

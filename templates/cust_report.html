@@ -1,0 +1,53 @@
+{%extends 'dashbase.html'%}
+{%block css%}
+<link rel="stylesheet" type=text/css href="{{url_for('static',filename='project_view.css')}}">
+{%endblock css%}
+
+{%with proj=proj%}
+{%include 'navfiles/proj_view_nav.html'%}
+{%endwith%}
+
+{%block content%}
+<div class='d-flex justify-content-center'>
+  {%for k,v in info.items()%}
+  {{k}} <span class="badge badge-info">{{v}}</span> | <span> </span>
+  {%endfor%}
+</div>
+<hr>
+
+<ul class="nav nav-tabs d-flex justify-content-center">
+  <li><a data-toggle="tab" href="#datainfo" class="btn btn-secondary">Segmentation Description</a></li>
+  <li><a data-toggle="tab" href="#numstats" class="btn btn-secondary">Expected Lifetime Value</a></li>
+  <li><a data-toggle="tab" href="#catstats" class="btn btn-secondary"> Segmentation Analysis</a></li>
+  <li><a data-toggle="tab" href="#info" class="btn btn-secondary">Segment wise count</a></li>
+</ul>
+
+
+<div class="tab-content">
+  <div id="info" class="tab-pane fade">
+    <div class="imegs">
+      Segment wise count
+      <img src='data:image/png;base64,{{seg_bar}}' height="100%" width="100%">
+    </div>
+  </div>
+
+  <div id="datainfo" class="tab-pane fade in active" height="100%" width="100%">
+    Segmentation Description
+    {{desc_df|safe}}
+  </div>
+
+
+  <div id="numstats" class="tab-pane fade" height="100%" width="100%">
+    Expected Lifetime Value
+    <img src='data:image/png;base64,{{seg_line}}' height="100%" width="100%">
+  </div>
+
+
+  <div id="catstats" class="tab-pane fade">
+
+    Segmentation Analysis
+    <img src='data:image/png;base64,{{seg_square}}' height="100%" width="100%">
+
+  </div>
+</div>
+{%endblock%}

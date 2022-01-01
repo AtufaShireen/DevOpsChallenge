@@ -134,7 +134,7 @@ class BestRegessionModel():
         # regress_best_model = {} for storing complete info of best model
         self.all_regress_model_score = {}
         score_ =float('-inf')
-        estimates = ['lr', 'dt','lasso','svr','knn','elnet','rf']
+        estimates = ['dt','lasso']
 
         for i in estimates:
             # model.drop(['cluster_label'],axis=1,inplace=True)

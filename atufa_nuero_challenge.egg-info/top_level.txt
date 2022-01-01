@@ -1,8 +1,0 @@
-CloudPlatForms
-DBManagement
-ProjectLoggings
-TrainingProcess
-ValidationProcess
-automl
-tests
-webapp

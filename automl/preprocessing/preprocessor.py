@@ -62,7 +62,7 @@ class Validation(BaseEstimator ):
     
     def __init__(self,target=None,ml_type='classification') -> None:
         self.ml_type=ml_type
-        self.final_cols = []
+        self.final_training_columns = []
         self.target = target
     def fit(self,dataset,y=None):
         logging.info("Preprocess step fit:Validation ")
@@ -71,6 +71,7 @@ class Validation(BaseEstimator ):
         data = dataset.drop(self.target,axis=1)
         data = data.loc[:,~data.columns.duplicated()]
         data.drop(data.select_dtypes(include=["datetime64", "datetime64[ns, UTC]"]),axis=1,inplace=True,errors='ignore')   
+        print(data.columns)
         self.final_training_columns = data.columns.to_list()
         
 
@@ -131,30 +132,31 @@ class Imputation(BaseEstimator ):
         )
         self.num_fill = num_fill
         self.cat_fill=cat_fill
-
+        self.numeric_columns=[]
+        self.categorical_columns=[]
     def fit(self, dataset, y=None):
         logging.info("Preprocess step fit:Inputation")
         data = dataset
         self.numeric_columns = data.drop((self.target)[0], axis=1).select_dtypes(include=["number"]).columns
         self.categorical_columns = data.drop((self.target)[0], axis=1).select_dtypes(include=["object"]).columns
 
-        if not self.numeric_columns.empty:
+        if len(self.numeric_columns) > 0:
             self.num_impute.fit(data[self.numeric_columns])
-        if not self.categorical_columns.empty:
+        if len(self.categorical_columns) >0:
             self.cat_impute.fit(data[self.categorical_columns])
 
     def transform(self, dataset, y=None):
         logging.info("Preprocess step transform:Inputation")
         data = dataset
         imputed_data = []
-        if not self.numeric_columns.empty:
+        if len(self.numeric_columns)>0:
             numeric_data = pd.DataFrame(
                 self.num_impute.transform(data[self.numeric_columns]),
                 columns=self.numeric_columns,
                 index=data.index,
             )
             imputed_data.append(numeric_data)
-        if not self.categorical_columns.empty:
+        if len(self.categorical_columns)>0:
             categorical_data = pd.DataFrame(
                 self.cat_impute.transform(data[self.categorical_columns]),
                 columns=self.categorical_columns,
@@ -187,11 +189,12 @@ class IterativeImputation(BaseEstimator):
 class ZeroVariance(BaseEstimator):
     def __init__(self,target=None) -> None:
         self.target=target
+        self.col_drop = []
     def fit(self,dataset,y=None):
         '''For training data'''
         logging.info("Preprocess step fit:ZeroVariance")
         data = dataset.drop(self.target,axis=1)
-        self.col_drop = []
+        
         for i in data.select_dtypes(include=['number']).columns:
             if data[i].std()==0:
                 self.col_drop.append(i)
@@ -443,10 +446,15 @@ class TargetTreat(BaseEstimator):
                 logging.warning((data[self.target].isnull().sum()))
                 data.dropna(subset=[self.target], inplace=True)
                 logging.warning("Found nan rows in target")
+                
+                self.le.fit(data[self.target])
+                self.replacement = _get_labelencoder_reverse_dict(self.le)
             except KeyError:
                 pass
-            self.le.fit(data[self.target])
-            self.replacement = _get_labelencoder_reverse_dict(self.le)
+            
+            except Exception as e:
+                print(e)
+                raise e
     def transform(self,dataset,y=None):
         logging.info("Preprocess step transform:TargetTreat")
         data = dataset

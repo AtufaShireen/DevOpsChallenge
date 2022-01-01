@@ -56,7 +56,7 @@ $(document).ready(function () {
                 'blob_name':$(".get-link").data('file_name'),
 
             },
-            type: "GET",
+            type: "POST",
             // data: { filepath: path },
             success: function (response) {
                 console.log("done!")

@@ -16,27 +16,28 @@
         integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="{{url_for('static',filename='project_view.js')}}"></script>
-
+    <link rel='stylesheet' href="{{url_for('static',filename='proj_base.css')}}">
 
 
     <style>
-        a{
+        a {
             text-decoration: none;
         }
+
         #sidebar-wrapper a {
             background-color: #cccccc;
-    color: #2d4658;
-    padding: 5px;
-    text-shadow: 0 0 black;
-    text-decoration: none;
-    text-transform: uppercase;
-    display: flex;
-    flex-direction: column;
-    flex-wrap: nowrap;
-    align-content: space-around;
-    align-items: center;
-    justify-content: center;
-}
+            color: #2d4658;
+            padding: 5px;
+            text-shadow: 0 0 black;
+            text-decoration: none;
+            text-transform: uppercase;
+            display: flex;
+            flex-direction: column;
+            flex-wrap: nowrap;
+            align-content: space-around;
+            align-items: center;
+            justify-content: center;
+        }
 
         #wrapper {
             padding-left: 250px;
@@ -178,15 +179,18 @@
         }
     </style>
 </head>
-
-<body>
+<nav>
+   
     {% with messages = get_flashed_messages() %}
-    {% if messages %}
+       {% if messages %}
     {% for message in messages %}
     <p class="alert alert-primary">{{ message }}</p>
     {% endfor %}
-    {% endif %}
+    {%endif%}
     {% endwith %}
+</nav>
+<body>
+
     <div id="wrapper">
         <div id="sidebar-wrapper">
             <ul class="sidebar-nav">

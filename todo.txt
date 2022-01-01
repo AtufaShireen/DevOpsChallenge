@@ -1,0 +1,8 @@
+set PYTHONPATH=%PYTHONPATH%;C:\Users\anony\Projects\AUTOMLOPS\
+cd C:\Program Files\MongoDB\Server\5.0\bin
+mongod.exe
+
+
+venv\Scripts\activate
+set flask_env=development
+python main.py

@@ -78,10 +78,9 @@ class ClassifBaggingEnsemble(BaseEstimator):
     
     def base_ensemble_models(self):
         # Instantiate classifiers
-        svc = self.base_model(id='svc')
         dt = self.base_model(id = 'dt')
         nb = self.base_model(id='nb')
-        estimators = [('svc',svc),('dt',dt),('nb',nb)]
+        estimators = [('dt',dt),('nb',nb)]
         return estimators
  
     def score(self,X,y):
@@ -207,7 +206,7 @@ class BoostingEnsemble(BaseEstimator):
         try:
             self.best_params,self.best_cv_score = get_best_param(estimator=self.model,X = X,y = y,tune_grid=tune_grid)
         except Exception as e:
-            logging.info(f"Couldnot perform boosting")
+            logging.info(f"Couldnot perform boosting {e}")
             raise ValueError("Pass Sufficient data")
         self.model.set_params(**self.best_params)
         self.model.fit(X,y)

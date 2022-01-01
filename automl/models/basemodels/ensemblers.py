@@ -414,7 +414,7 @@ class BaseXGBRegressor(BaseEstimator):
             ],
             "reg_lambda": [
                 0.5,
-                0.7,
+                # 0.7,
                 10,
             ],
             "scale_pos_weight": np.arange(5, 30, 1),

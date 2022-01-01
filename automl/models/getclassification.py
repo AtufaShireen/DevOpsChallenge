@@ -141,10 +141,10 @@ class BestClassificationModel():
         score_ =float('-inf')
 
         if (y_train.nunique()>2): #multiclass classification
-            estimates = ['nb','rf','knn','dt'] # rf is ensemble but defined in classif module ;)
+            estimates = ['rf','dt'] # rf is ensemble but defined in classif module ;)
             logging.info(f'Multiclass Classification')
         elif (y_train.nunique()<=2): #binary classification
-            estimates = ['nb','lr','knn','dt','svc']
+            estimates = ['nb','lr','svc']
             logging.info(f'Binary Classification')
 
         for i in estimates:

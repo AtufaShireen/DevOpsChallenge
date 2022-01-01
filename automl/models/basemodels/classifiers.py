@@ -156,13 +156,13 @@ class BaseSGDClassifier(BaseClassifier):
         args = {}
         tune_args = {}
         tune_grid = {
-            "penalty": ["elasticnet", "l2", "l1"],
+            "penalty": [ "l2", "l1"],
             "l1_ratio": np.arange(0.1, 1, 0.5),#000000.1
             "alpha": [
                 0.0000001,
-                0.001,
-                0.005,
-                0.4,
+                # 0.001,
+                # 0.005,
+                # 0.4,
                 0.5,
             ],
             "fit_intercept": [True, False],

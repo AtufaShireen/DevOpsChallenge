@@ -8,7 +8,7 @@ import os
 
 import glob
 class AWSOps():
-    def __init__(self,user_name,user_id,project_id=None,root_bucket='atufa-neuro-mlops'):
+    def __init__(self,user_name,user_id,project_id=None,root_bucket='automlops'):
         ACCESS_KEY = str(os.environ.get('AWS_ACCESS_KEY'))
         SECRET_KEY = str(os.environ.get('AWS_SECRET_KEY'))  
         region_name = 'us-east-1'
@@ -149,4 +149,8 @@ class AWSOps():
 #         except Exception as e:
 #             user_logs('Could not retrieve files from AWS',user_id = self.user_id,exception=True)
 # gcp = AWSOps('sfd','fgh','dfg')
-# print(gcp,'connected')
+# print(gcp.list_buckets(),'connected')
+# # bucket = gcp.get_bucket('atufa')
+# blobs = gcp.s3_client.list_objects(Bucket='automlops')
+# for i in blobs['Contents']:
+#     print(i['Key'] )

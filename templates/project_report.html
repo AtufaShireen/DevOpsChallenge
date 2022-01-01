@@ -7,10 +7,12 @@
 {%include 'navfiles/proj_view_nav.html'%}
 {%endwith%}
 {%block content%}
-Project Report
-<br>
+
+<div class='status'>
 {%for k,v in info.items()%}
-{{k}}: {{v}}
-<br>
+{{k}} <span class="badge badge-info">{{v}}</span> | <span> </span>
 {%endfor%}
+</div>
+Metrics
+{{metrics|safe}}
 {%endblock%}

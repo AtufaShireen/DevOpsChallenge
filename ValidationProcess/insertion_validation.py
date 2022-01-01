@@ -29,25 +29,31 @@ class InsertPreprocess:
 
         self.mongops = MongoDBmanagement(user_id=user_id,project_id=project_id)
         self.project = self.mongops.findfirstRecord('ProjectData','projects',{'project_id':self.project_id})
-        self.bqops = BigQueryManagement(user_id=user_id,project=self.project,type=type)        
+        if os.getenv("cloud_env")=='True':
+            self.bqops = BigQueryManagement(user_id=user_id,project=self.project,type=type)   
         self.logger = App_Logger(user_id,project_id)
     def process_validation(self):
         logging.info(f'Validation of files started')
         try:  
-            self.update_file_type()
+            # self.update_file_type()
             self.validatefilename()
             self.validatecolumns()
             self.validatemissingdata()
             if not os.listdir(self.good_folder):
                 logging.warning(f"No Good files detected")
-                raise ValueError(f'No Good Files Detected')
+                return{'status':False,'message':'No good files detected'}
             logging.info(f'db started')
-            self.bqops.create_table()
-            self.bqops.insert_table(self.good_folder)
+            if not os.getenv("cloud_env")=='True':
+                self.bqops()
+            else:
+                self.bqops.create_table()
+                self.bqops.insert_table(self.good_folder)
             logging.info(f'dbs done')
+            return {'status':True,'message':'Done'}
         except Exception as e:
             logging.info(f'error{e}')
             raise e
+            return{'status':False,'message':str(e)}
     
     def valuesFromSchema(self):
 
@@ -69,13 +75,16 @@ class InsertPreprocess:
     
     def validatefilename(self):
         logging.info('Validating File Name')
-        regex = self.project.get('file_regex').replace('.csv','.h5')
+        regex_2 = self.project.get('file_regex')
         files = [f for f in os.listdir(self.raw_folder)]
+        print(files)
         date_stamp_len,time_stamp_len,column_names,noofcolumns = self.valuesFromSchema()
         if files:
             for file in files:       
-                if re.match(regex,file):
-                    logging.info(f'Doesnot Match regex')
+                logging.info(f"---------------FIlename: {file}")
+                if (re.match(regex_2,file)):
+                    print(regex_2,file)
+                    logging.info(f'Match regex')
                     try:
                         filename = file.split('.')[0]
                         _,datestamp ,timestamp = filename.split('_')
@@ -93,6 +102,7 @@ class InsertPreprocess:
                         logging.info(f'bad filee  with name: {e}')
 
                 else:
+                    logging.info(f'Doesnot Match regex:{regex_2}')
                     shutil.copy(os.path.join(self.raw_folder,file),os.path.join(self.bad_folder,file))
                     self.logger.project_logs(f'Bad File regex {file}',exception=True)
                     logging.info(f'bad file detected with name: {file}')
@@ -126,7 +136,10 @@ class InsertPreprocess:
         files = [f for f in os.listdir(self.good_folder)]
         _,_,column_names,noofcolumns = self.valuesFromSchema()
         for file in files:
-            df = pd.read_hdf(os.path.join(self.good_folder,file))
+            if file.endswith('.h5'):
+                df = pd.read_hdf(os.path.join(self.good_folder,file))
+            else:
+                df = pd.read_csv(os.path.join(self.good_folder,file))
             if df.shape[1] == noofcolumns:
                 for col in column_names.keys():
                     if col in df.columns:
@@ -134,7 +147,7 @@ class InsertPreprocess:
                     else:
                         shutil.move(os.path.join(self.good_folder,file),os.path.join(self.bad_folder,file))
                         self.logger.project_logs(f'Bad File {file} with column names',exception=True)
-                        logging.info(f'bad file detected with column names: {file}')
+                        logging.info(f'bad file detected with column names ({col}): {file}')
             else:
                 shutil.move(os.path.join(self.good_folder,file),os.path.join(self.bad_folder,file))
                 self.logger.project_logs(f'Bad File {file} no fo columns',exception=True)
@@ -146,13 +159,30 @@ class InsertPreprocess:
         for file in files:
             try:
                 logging.info(f'-------------------file here: {file}')
-                df = pd.read_hdf(os.path.join(self.good_folder,file))
+                if file.endswith('.h5'):
+                    df = pd.read_hdf(os.path.join(self.good_folder,file))
+                else:
+                    df = pd.read_csv(os.path.join(self.good_folder,file))
                 df.fillna('NULL',inplace=True)
-                df.to_hdf(os.path.join(self.good_folder,file),index=None,key='hdf_key')
+                # df.to_hdf(os.path.join(self.good_folder,file),index=None,key='hdf_key')
+                df.to_csv(os.path.join(self.good_folder,file),index=None)
             except Exception as e:
                 self.logger.project_logs(f'Bad File {file} for insertions',exception=True)
                 logging.info(f'bad file detected wfro insertion {e}')
 
+    def bqops(self):
+        logging.info(f'Change csv to hdf for reducing memory')
+        good_files = glob.glob(self.good_folder + '\*', recursive=True)
+        for csv_file_name_num in range(len(good_files)):
+            if csv_file_name_num==0:
+                df = pd.read_csv(good_files[csv_file_name_num])
+                print(df.describe())
+            else:
+                n_df = pd.read_csv(good_files[csv_file_name_num])
+                df = pd.concat([df,n_df],axis=1)
+        print(df.describe())
+        df.to_csv(os.path.join(self.final_folder,f"{self.project.get('project_title')}-{self.type}.csv"),index=False)
+        
 # user_id='de32b12f-bdc3-4db5-984d-7c2a3ed03096'
 # project_id = '754d0fb8-125c-4658-97e6-4d78708eae67'
 # root_dir = r'C:\Users\anony\Projects\AUTOMLOPS'

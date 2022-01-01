@@ -1,3 +1,4 @@
+from sys import prefix
 from google.cloud import storage
 from google.oauth2 import service_account
 from CloudPlatForms.utils import  gcp_storage_credentials
@@ -7,14 +8,14 @@ import glob
 
 class GCPOps():
     #add path to user buket
-    def __init__(self,user_id,user_name,project_id,root_bucket='auto-mlops',root_project='ineuronchallenge' ):
+    def __init__(self,user_name,root_bucket='auto-mlop',root_project='automlops',project_id=None,user_id=None ):
 
         self.credentials = service_account.Credentials.from_service_account_info(gcp_storage_credentials())
         # self.root_project = root_project
         self.storage_client = storage.Client(project=root_project,credentials=self.credentials)
         self.user_name = user_name
-        self.user_id = user_id
-        self.project_id = project_id
+        # self.project_id = project_id
+        # self.user_id = user_id
         self.root_bucket = root_bucket
     
     def generate_download_signed_url_v4(self, blob_name,bucket_name=None):
@@ -44,7 +45,8 @@ class GCPOps():
     
     def check_blob(self,blob_name,bucket_name=None):
         bucket = self.check_bucket(self.root_bucket)
-        blob = bucket.get_blob(blob_name)
+        print(blob_name)
+        blob = bucket.list_blobs(prefix =blob_name)
         if blob:
             return True
         # self.logger.project_log(f'Checking For Folder {bucket_name}')
@@ -102,6 +104,7 @@ class GCPOps():
         bucket = self.storage_client.get_bucket(self.root_bucket)
         blobs_list = []
         regex = f"{self.user_name}/{project_name}/{directory_path}/"
+        print(regex)
         try:
             for blob in bucket.list_blobs(prefix=self.user_name):
                 if (blob.name.startswith(regex)) and not(blob.name.endswith('/')):
@@ -170,3 +173,5 @@ class GCPOps():
             raise e
             # cloud_logs('File cannot be loaded Cloud',exception=True,user_id=self.user_id,project_id=self.project_id)   
 
+# x = GCPOps('sdf')
+# print(x.check_blob('atufa/forest-cover-prediction/'))

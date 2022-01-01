@@ -1,0 +1,5 @@
+Files to be moved here
+forms.py
+main.py
+tempalates
+static
