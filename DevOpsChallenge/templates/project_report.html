@@ -1,0 +1,18 @@
+{%extends 'dashbase.html'%}
+{%block css%}
+<link rel="stylesheet" type=text/css href="{{url_for('static',filename='project_view.css')}}">
+{%endblock css%}
+
+{%with proj=proj%}
+{%include 'navfiles/proj_view_nav.html'%}
+{%endwith%}
+{%block content%}
+
+<div class='status'>
+{%for k,v in info.items()%}
+{{k}} <span class="badge badge-info">{{v}}</span> | <span> </span>
+{%endfor%}
+</div>
+Metrics
+{{metrics|safe}}
+{%endblock%}

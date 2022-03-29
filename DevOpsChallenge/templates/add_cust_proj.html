@@ -1,0 +1,39 @@
+{%extends 'dashbase.html'%}
+
+{%block title%} Add Segemtation Project {%endblock%}
+{% include 'navfiles/proj_nav.html' %}
+{%block css%}<link rel="stylesheet" type=text/css href="{{url_for('static',filename='project_view.css')}}">{%endblock css%}
+{%block content%}
+
+<div class='add-project '>
+    <h4 class="title">Add New Project</h4>
+    <form method="post" id="datafetch_form">
+        {% for field, errors in form.errors.items() %}
+        <div class="alert alert-error">
+            erererer
+            {{ form[field].label }}: {{ ', '.join(errors) }}
+        </div>
+        {% endfor %}
+        {{ form.csrf_token }}
+        
+        <div class="form-group files color">
+            Project Title: {{form.project_title}}
+        </div>
+        <br />
+        Project Description: <br />{{form.project_desc}}<br />
+
+        <br />File regex:<br /> {{form.file_regex}}<br />
+            <br />
+            column Schema:</br> {{form.column_schema}}
+            <br />
+        <br />
+
+        <p>Select Cloud Platform</p>
+        {{form.cloud}}
+<br/>
+<br>
+
+        <center class="button">{{form.submit()}}</center>
+    </form>
+</div>
+{%endblock content%}

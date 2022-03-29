@@ -1,0 +1,24 @@
+{%extends 'dashbase.html'%}
+
+{%block title%} Configure Project: {{project.project_title}} {%endblock%}
+
+{%block css%}<link rel="stylesheet" type=text/css href="{{url_for('static',filename='project_view.css')}}">{%endblock css%}
+{%with proj=project%}
+{%include 'navfiles/proj_view_nav.html'%}
+{%endwith%}
+{%block content%}
+<div class='add-project '>
+    <h4 class="title">Upload Training files for segmentation</h4>
+    <form method="post" id="datafetch_form" enctype="multipart/form-data" action="/add_batch_files/{{project.project_id}}">
+        <p>Add Training Files Here</p>
+        <input type="file" name="trainfile[]" multiple="">
+        <br>
+        <br>
+
+        <br>
+        <center><input type="submit" value="addfiles"></center>
+    </form>
+    <hr>
+    
+</div>
+{%endblock content%}

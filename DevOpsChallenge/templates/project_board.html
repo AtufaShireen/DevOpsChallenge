@@ -1,0 +1,21 @@
+{%extends 'dashbase.html'%}
+
+{%block title%} Project Board {%endblock title%}
+{%block css%}<link rel="stylesheet" type=text/css href="{{url_for('static',filename='project_view.css')}}">{%endblock css%}
+{%include 'navfiles/proj_nav.html'%}
+{%block content%}
+
+<div class="card-deck">
+    {%for i in user_proj%}
+
+    <a href="{{url_for('project_view',project_id=i.project_id)}}" style="padding-top: 15px;">
+        <div class="card border-success mb-3" style="max-width: 18rem;">
+            <div class="card-header">{{i.project_title}}</div>
+            <div class="card-body text-secondary">
+                <p class="card-text">{{i.project_desc}}</p>
+            </div>
+        </div>
+    </a>
+    {%endfor%}
+</div>
+{%endblock content%}
