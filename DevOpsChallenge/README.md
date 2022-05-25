@@ -1,8 +1,5 @@
-# inueronchallenge
-A platform for training machine learning models on regression and classification.
+# customersegmentation
+Customer Segmentation with ml: https://docs.google.com/presentation/d/1ouG12b6goctJdt599LsgRO8idV4-Ht3NnukdODTFnuI/edit?usp=sharing
 
-Wireframe: https://github.com/AtufaShireen/inueronchallenge/blob/main/Automl%20wireframe.pdf
-
-Architecture: https://github.com/AtufaShireen/inueronchallenge/blob/main/automl%20architecture.pdf
-
-LLD: https://github.com/AtufaShireen/inueronchallenge/blob/main/LLD%20AUTOMLOPS.pdf
+* Creating segments of users based on purchase behaviour
+* Calculating LifeTime of users for future, with survival analysis.
