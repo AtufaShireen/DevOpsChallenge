@@ -3,3 +3,4 @@ Customer Segmentation with ml: https://docs.google.com/presentation/d/1ouG12b6go
 
 * Creating segments of users based on purchase behaviour
 * Calculating LifeTime of users for future, with survival analysis.
+* Deployment of platform using ci-cd, containerization, file management on cloud.
