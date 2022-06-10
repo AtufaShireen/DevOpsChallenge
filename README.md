@@ -5,6 +5,7 @@ A platform for
 * Creating segments of users based on purchase behaviour
 * Calculating LifeTime of users for future, with survival analysis.
 * Deployment of platform using ci-cd, containerization, file management on cloud.
+
 Wireframe and Architecture: https://docs.google.com/presentation/d/1ouG12b6goctJdt599LsgRO8idV4-Ht3NnukdODTFnuI/edit?usp=sharing
 
 ## automl
