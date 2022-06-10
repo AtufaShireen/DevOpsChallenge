@@ -8,6 +8,8 @@ A platform for
 
 Wireframe and Architecture: https://docs.google.com/presentation/d/1ouG12b6goctJdt599LsgRO8idV4-Ht3NnukdODTFnuI/edit?usp=sharing
 
+HLD: https://docs.google.com/document/d/14XNmvaK65v1eQfSxoSad96rF4hO3epauiOgO9j6uYWU/edit?usp=sharing
+
 ## automl
 A platform for training machine learning models on regression and classification.
 
